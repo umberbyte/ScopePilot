@@ -13,7 +13,7 @@ public sealed class McpSetupService
         var codex = FindLatest(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OpenAI", "Codex", "bin"), "codex.exe");
         var node = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "nodejs", "node.exe");
         var java = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "BurpSuite", "jre", "bin", "java.exe");
-        var proxy = Path.Combine(AppContext.BaseDirectory, "tools", "mcp-proxy-all.jar");
+        var proxy = BurpProxyLocation.Resolve();
         var scopePilotRoot = ScopePilotDataPaths.RootDirectory;
         var playwrightOutput = Path.Combine(scopePilotRoot, "playwright");
         var playwrightCli = Path.Combine(AppContext.BaseDirectory, "tools", "playwright-runtime", "node_modules", "@playwright", "mcp", "cli.js");
@@ -21,7 +21,7 @@ public sealed class McpSetupService
         if (codex is null) messages.Add("Codex CLIが見つかりません。");
         if (!File.Exists(node)) messages.Add($"Node.jsが見つかりません: {node}");
         if (!File.Exists(java)) messages.Add($"BurpのJavaが見つかりません: {java}");
-        if (!File.Exists(proxy)) messages.Add($"Burp MCPプロキシが見つかりません: {proxy}");
+        if (!File.Exists(proxy)) messages.Add($"Burp MCPプロキシが見つかりません: {proxy}。Burp MCP拡張からプロキシJARを取得してこの場所へ配置するか、環境変数{BurpProxyLocation.EnvironmentVariable}でJARの完全なパスを指定してください。");
         if (!File.Exists(playwrightCli)) messages.Add($"Playwright MCP本体が見つかりません: {playwrightCli}");
         if (messages.Count > 0) return new(false, messages);
 

@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text.Json;
 using ScopePilot.Services;
 using Xunit;
@@ -6,6 +7,14 @@ namespace ScopePilot.Tests;
 
 public sealed class McpSetupServiceTests
 {
+    [Fact]
+    public void BurpProxy_DefaultsToUserSuppliedJarUnderDataRoot() =>
+        Assert.Equal(Path.Combine(@"C:\ScopePilot data", "mcp", "mcp-proxy-all.jar"), BurpProxyLocation.ResolvePath(null, @"C:\ScopePilot data"));
+
+    [Fact]
+    public void BurpProxy_ExplicitPathTakesPrecedenceOverDataRoot() =>
+        Assert.Equal(@"C:\Burp tools\proxy.jar", BurpProxyLocation.ResolvePath(@"C:\Burp tools\proxy.jar", @"C:\ScopePilot data"));
+
     private static string Configuration(string cli, bool enabled = true) => JsonSerializer.Serialize(new
     {
         enabled,

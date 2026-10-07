@@ -16,7 +16,10 @@ public sealed class EnvironmentProbe
         var npm = await ProbeAsync("npm / npx", npxPath, "--version");
         var burp = await ProbeTcpAsync("Burp MCP", "127.0.0.1", 9876, "BurpのMCPタブでサーバーを有効化してください");
         var burpProxy = await ProbeTcpAsync("Burp Proxy", "127.0.0.1", 8080, "BurpのProxy settingsでListenerを有効化してください");
-        return [codex, node, npm, burp, burpProxy,
+        var proxyJar = BurpProxyLocation.Resolve();
+        var externalProxy = new EnvironmentCheck("Burp stdioプロキシ", File.Exists(proxyJar), File.Exists(proxyJar)
+            ? $"外部プロキシ: {proxyJar}" : $"Burp MCP拡張から取得したJARを配置してください: {proxyJar}");
+        return [codex, node, npm, burp, burpProxy, externalProxy,
             new EnvironmentCheck("Playwright MCP", npm.Available, npm.Available
                 ? $"npxを検出しました: {npxPath}"
                 : "npxが見つかりません。Node.jsのnpm/npxを利用可能にしてください。")];

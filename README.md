@@ -2,6 +2,10 @@
 
 ScopePilotは、受託Web診断の事前探索と診断対象リクエストの整理を支援するWindowsアプリです。
 
+## ライセンス
+
+ScopePilot本体のソースコード、スクリプト、ドキュメントは **BSD-3-Clause** で公開します。著作権者は `umberbyte` です。利用・改変・再配布の条件と免責事項は [LICENSE](LICENSE) を参照してください。第三者のコンポーネントには各コンポーネントのライセンスが適用されます。詳細は [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) に記載しています。
+
 ## APIドキュメントモード
 
 案件設定の「入力モード」で、既存のWeb探索とAPIドキュメントからのリクエスト生成を切り替えます。APIモードはクローリングを行わず、Codex CLIまたはClaude Code CLIが読み込んだ文書を解釈します。
@@ -117,6 +121,7 @@ GitHub Actionsでも同じ手順でPlaywright MCPランタイムを復元し、w
 ## MCPの前提
 
 - Playwright MCP本体はアプリに同梱され、インストール済みNode.jsから直接起動します。
+- Burp MCP用のGPL-3.0プロキシは別途導入します。Burp MCP拡張のstdioプロキシ抽出機能から `mcp-proxy-all.jar` を取得し、`%LOCALAPPDATA%\ScopePilot\mcp\mcp-proxy-all.jar` へ保存してください。保存ルートを変更している場合は、そのルートの `mcp` フォルダーを使用します。別の場所にあるJARを使う場合は、ScopePilotの起動環境の `SCOPEPILOT_BURP_PROXY_JAR` に完全なパスを指定します。上流の導入手順は [PortSwigger MCP Server](https://github.com/PortSwigger/mcp-server#stdio-mcp-proxy-server) を参照してください。
 - Burp: BApp StoreのMCP ServerをBurp Community Editionに追加し、MCPタブから有効化
 - ScopePilotのセットアップにより、PlaywrightブラウザはBurp Proxy経由に設定されます。
 

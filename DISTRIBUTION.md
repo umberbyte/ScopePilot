@@ -1,5 +1,9 @@
 # ScopePilot 0.11.2 配布版
 
+ScopePilot本体はBSD-3-Clauseライセンスです。配布物に含まれる `LICENSE` に再配布条件と免責事項を記載しています。第三者コンポーネントのライセンスは `THIRD-PARTY-NOTICES.md` と各コンポーネントのLICENSE／NOTICEを参照してください。
+
+配布スクリプトは、BSDライセンス、PlaywrightのライセンスとNOTICE、実際に組み込む.NETランタイムのライセンスと第三者通知の同梱を検査します。GPLのBurp用プロキシが混入している場合は配布物の生成を停止します。ランタイムのライセンス文書は `licenses/dotnet` に保存します。
+
 Windows x64版とARM64版、それぞれのSetup.exeとポータブルZIPを提供します。両方とも自己完結型で、.NETランタイムの別途インストールは不要です。Windows 10 21H2以降 / Windows 11が必要です。SnapdragonなどのWindows on ARMでは `win-arm64`、Intel/AMDの64ビットPCでは `win-x64` を選択してください。Windowsの「設定」→「システム」→「バージョン情報」のシステムの種類で確認できます。
 
 ARM64版のアプリ本体と.NETランタイムはARM64ネイティブです。ARM64用SetupはARM64 Windowsにのみ導入できます（セットアップ起動部分はInno Setupのx86プログラムで、Windowsの互換実行を使用します）。外部のNode.js、Codex、BurpはそれぞれのWindows on ARM対応と実行条件を確認してください。
@@ -31,7 +35,7 @@ Windowsの「設定」→「アプリ」からScopePilotを削除します。案
 4. `ScopePilot.exe` を起動し、「環境チェック」と「MCP接続を設定」を実行します。
 5. Codexを再起動してから探索を開始します。
 
-Playwright MCPランタイムとBurp MCP用stdioプロキシは配布物へ同梱されます。案件データは `%LOCALAPPDATA%\ScopePilot` に保存されます。
+Playwright MCPランタイムは配布物へ同梱されます。Burp MCP用stdioプロキシは、Burp MCP拡張の抽出機能から別途取得して `%LOCALAPPDATA%\ScopePilot\mcp\mcp-proxy-all.jar` へ配置してください。別の場所を使う場合は、環境変数 `SCOPEPILOT_BURP_PROXY_JAR` に完全なパスを指定します。案件データは `%LOCALAPPDATA%\ScopePilot` に保存されます。
 
 ## 配布物の検証
 

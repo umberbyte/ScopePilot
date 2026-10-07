@@ -39,6 +39,7 @@ AppMutex=Local\ScopePilot.Application
 CloseApplications=yes
 RestartApplications=no
 InfoBeforeFile=BeforeInstall.txt
+LicenseFile=..\LICENSE
 ChangesAssociations=no
 ChangesEnvironment=no
 

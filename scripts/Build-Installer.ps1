@@ -35,9 +35,10 @@ if (-not $SkipPublish) {
 }
 $artifactsRoot = Join-Path $projectRoot 'artifacts'
 $publishDirectory = Join-Path $artifactsRoot "ScopePilot-$Version-$Runtime"
-foreach ($relative in @('ScopePilot.exe','ScopePilot.dll','VERSION.txt','tools\fast-crawl.js','tools\mcp-proxy-all.jar','tools\playwright-runtime\node_modules\@playwright\mcp\cli.js')) {
+foreach ($relative in @('ScopePilot.exe','ScopePilot.dll','VERSION.txt','LICENSE','THIRD-PARTY-NOTICES.md','tools\fast-crawl.js','tools\playwright-runtime\node_modules\@playwright\mcp\cli.js')) {
     if (-not (Test-Path -LiteralPath (Join-Path $publishDirectory $relative))) { throw "Incomplete payload: $relative" }
 }
+& (Join-Path $PSScriptRoot 'Test-DistributionLicenses.ps1') -PublishDirectory $publishDirectory -Runtime $Runtime -ProjectRoot $projectRoot
 if ((Get-Content -LiteralPath (Join-Path $publishDirectory 'VERSION.txt') -Raw).Trim() -ne $Version) { throw 'Payload version mismatch.' }
 if ((Get-Item (Join-Path $publishDirectory 'ScopePilot.dll')).VersionInfo.FileVersion -ne "$Version.0") { throw 'Assembly version mismatch.' }
 

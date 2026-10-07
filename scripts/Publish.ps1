@@ -31,6 +31,8 @@ New-Item -ItemType Directory -Path $artifactsRoot -Force | Out-Null
     -p:Version=$Version -p:AssemblyVersion="$Version.0" -p:FileVersion="$Version.0" -o $publishDirectory
 if ($LASTEXITCODE -ne 0) { throw "Windows publish failed." }
 
+& (Join-Path $PSScriptRoot 'Test-DistributionLicenses.ps1') -PublishDirectory $publishDirectory -Runtime $Runtime -ProjectRoot $projectRoot
+
 Copy-Item -LiteralPath (Join-Path $projectRoot "DISTRIBUTION.md") -Destination (Join-Path $publishDirectory "START_HERE.md")
 Set-Content -LiteralPath (Join-Path $publishDirectory "VERSION.txt") -Value $Version -Encoding ascii
 Compress-Archive -Path (Join-Path $publishDirectory "*") -DestinationPath $zipPath -CompressionLevel Optimal
